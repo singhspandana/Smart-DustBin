@@ -1,36 +1,6 @@
-# Smart-DustBin
-#include <Servo.h>
-const int trigPin = 9;
-const int echoPin = 10;
-const int servoPin = 3;
-const int distanceThreshold = 15;
-Servo lidServo;
+This project involves building a smart dustbin that automatically opens its lid when it detects a nearby object, like a hand. 
+It uses an ultrasonic sensor (HC-SR04) to measure the distance of the object.
+When something comes within a set range, a servo motor is triggered to open the lid. 
+After a short delay, the lid closes automatically.
+This touchless system helps maintain cleanliness and hygiene, especially in public or household settings.
 
-void setup() {
-  pinMode(trigPin, OUTPUT);
-  pinMode(echoPin, INPUT);
-  lidServo.attach(servoPin);
-  lidServo.write(0); 
-  Serial.begin(9600);
-}
-
-void loop() {
-  long duration;
-  int distance;
-  digitalWrite(trigPin, LOW);
-  delayMicroseconds(2);
-  digitalWrite(trigPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
-  duration = pulseIn(echoPin, HIGH);
-  distance = duration * 0.034 / 2;
-  Serial.print("Distance: ");
-  Serial.print(distance);
-  Serial.println(" cm");
-  if (distance <= distanceThreshold) {
-    lidServo.write(90); 
-    delay(3000);  
-    lidServo.write(0);  
-  }
-  delay(500); 
-}
